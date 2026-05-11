@@ -5,7 +5,7 @@ export const profile = {
   email: 'jacoboluwafemi72@gmail.com',
   githubUrl: 'https://github.com/Holuwaphemmy01',
   githubLabel: 'github.com/Holuwaphemmy01',
-  resumePath: '/oluwafemi-jacob-resume.txt',
+  resumePath: '/oluwafemi-jacob-resume.pdf',
   primaryStack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Solidity']
 };
 

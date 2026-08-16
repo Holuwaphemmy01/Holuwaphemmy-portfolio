@@ -1,4 +1,20 @@
-export const posts = [
+export interface PostSection {
+  heading: string;
+  body: string;
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  date: string;
+  tag: string;
+  readTime: string;
+  excerpt: string;
+  sections: PostSection[];
+  takeaways: string[];
+}
+
+export const posts: BlogPost[] = [
   {
     slug: 'designing-react-interfaces',
     title: 'Designing React Interfaces That Stay Fast Under Load',
@@ -70,6 +86,6 @@ export const posts = [
   }
 ];
 
-export function getPostBySlug(slug) {
+export function getPostBySlug(slug: string | undefined): BlogPost | undefined {
   return posts.find((post) => post.slug === slug);
 }

@@ -1,12 +1,30 @@
-export const projects = [
+export interface ProjectItem {
+  slug: string;
+  type: string;
+  name: string;
+  summary: string;
+  stack: string[];
+  image?: string;
+  url: string;
+  liveUrl: string;
+  problem: string;
+  role: string;
+  outcome: string;
+  highlights: string[];
+  architecture: string[];
+  metrics: string[];
+}
+
+export const projects: ProjectItem[] = [
   {
     slug: 'atlas-control-plane',
     type: 'Full-Stack',
     name: 'Atlas Control Plane',
     summary: 'A React operations dashboard with auth, team workflows, analytics views, and API-backed command actions.',
     stack: ['React', 'API Design', 'Auth', 'Dashboards'],
+    image: '/images/atlas-control-plane.jpg',
     url: '/projects/atlas-control-plane',
-    liveUrl: 'https://example.com/atlas-control-plane',
+    liveUrl: 'https://github.com/Holuwaphemmy01',
     problem: 'Operations teams needed one reliable workspace to inspect metrics, trigger workflows, and understand system state without switching between disconnected tools.',
     role: 'Designed the product flow, built the React interface, shaped API contracts, and implemented dashboard states for loading, empty, error, and success paths.',
     outcome: 'Reduced operational friction by turning scattered actions into a focused command surface with clear feedback for every workflow.',
@@ -20,8 +38,9 @@ export const projects = [
     name: 'Event Ledger API',
     summary: 'A service layer for reliable event ingestion, validation, query performance, and audit-friendly records.',
     stack: ['Node.js', 'REST', 'Database', 'Observability'],
+    image: '/images/event-ledger-api.jpg',
     url: '/projects/event-ledger-api',
-    liveUrl: 'https://example.com/event-ledger-api',
+    liveUrl: 'https://github.com/Holuwaphemmy01',
     problem: 'The product needed a dependable backend for ingesting high-value events, validating payloads, and preserving records that could be audited later.',
     role: 'Designed service boundaries, validation rules, database access patterns, error responses, and logging conventions.',
     outcome: 'Created a backend foundation that made event writes predictable, query paths easier to reason about, and failure cases visible.',
@@ -35,8 +54,9 @@ export const projects = [
     name: 'Vault Settlement Protocol',
     summary: 'A wallet-enabled transaction flow for deposits, settlement states, contract reads, and user-safe confirmations.',
     stack: ['Smart Contracts', 'Wallets', 'React', 'Security'],
+    image: '/images/vault-settlement-protocol.jpg',
     url: '/projects/vault-settlement-protocol',
-    liveUrl: 'https://example.com/vault-settlement-protocol',
+    liveUrl: 'https://github.com/Holuwaphemmy01',
     problem: 'Users needed a safer way to understand wallet actions, transaction progress, and settlement states before committing blockchain operations.',
     role: 'Mapped the transaction lifecycle, built wallet interaction states, and designed UI feedback for pending, confirmed, failed, and recoverable actions.',
     outcome: 'Improved trust in the transaction flow by making contract interactions visible, explainable, and easier to recover from.',
@@ -46,6 +66,6 @@ export const projects = [
   }
 ];
 
-export function getProjectBySlug(slug) {
+export function getProjectBySlug(slug: string | undefined): ProjectItem | undefined {
   return projects.find((project) => project.slug === slug);
 }

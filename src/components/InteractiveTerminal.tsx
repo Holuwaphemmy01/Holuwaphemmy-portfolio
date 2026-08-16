@@ -1,15 +1,20 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TerminalWindow } from './TerminalWindow.jsx';
+import { TerminalWindow } from './TerminalWindow';
 import { profile } from '../data/profile.js';
 import { projects } from '../data/projects.js';
+
+interface HistoryItem {
+  command: string;
+  output: string;
+}
 
 const commandShortcuts = ['projects', 'project 1', 'project 2', 'project 3', 'skills', 'contact', 'resume'];
 
 export function InteractiveTerminal() {
   const navigate = useNavigate();
   const [command, setCommand] = useState('');
-  const [history, setHistory] = useState([
+  const [history, setHistory] = useState<HistoryItem[]>([
     { command: 'whoami', output: `${profile.name} - ${profile.title}` },
     { command: 'stack --core', output: profile.primaryStack.join(', ') },
     { command: 'tools --daily', output: 'Git, GitHub, Docker, Postman, Linux, CI/CD' }
@@ -17,14 +22,14 @@ export function InteractiveTerminal() {
 
   const projectCommands = useMemo(() => projects.map((project, index) => `project ${index + 1}: ${project.name}`), []);
 
-  function runCommand(rawCommand) {
+  function runCommand(rawCommand: string) {
     const normalized = rawCommand.trim().toLowerCase();
 
     if (!normalized) {
       return;
     }
 
-    const routeMap = {
+    const routeMap: Record<string, string> = {
       home: '/',
       projects: '/projects',
       work: '/projects',
@@ -61,7 +66,7 @@ export function InteractiveTerminal() {
     setHistory((items) => [...items, { command: rawCommand, output: 'Command not found. Type help.' }]);
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     runCommand(command);
     setCommand('');
@@ -73,9 +78,9 @@ export function InteractiveTerminal() {
         {history.slice(-5).map((item, index) => (
           <div key={`${item.command}-${index}`}>
             <code className="block font-black">
-              <span className="mr-2 inline-block">$</span> {item.command}
+              <span className="mr-2 inline-block text-cyan-400">$</span> {item.command}
             </code>
-            <p>{item.output}</p>
+            <p className="text-neutral-600 dark:text-neutral-400">{item.output}</p>
           </div>
         ))}
       </div>
@@ -85,7 +90,7 @@ export function InteractiveTerminal() {
         <div className="flex flex-wrap gap-2">
           {commandShortcuts.map((item) => (
             <button
-              className="border-2 border-black bg-white px-2.5 py-1.5 text-xs font-black transition hover:bg-black hover:text-white"
+              className="border-2 border-black bg-white px-2.5 py-1.5 text-xs font-black transition hover:bg-black hover:text-white dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-white dark:hover:text-black"
               key={item}
               onClick={() => runCommand(item)}
               type="button"
@@ -96,23 +101,23 @@ export function InteractiveTerminal() {
         </div>
         <div className="grid gap-1 text-xs">
           {projectCommands.map((item) => (
-            <span className="font-black" key={item}>{item}</span>
+            <span className="font-black text-neutral-500 dark:text-neutral-500" key={item}>{item}</span>
           ))}
         </div>
       </div>
 
-      <form className="flex items-center gap-2 border-t-2 border-black pt-4" onSubmit={handleSubmit}>
-        <label className="font-black" htmlFor="terminal-command">
+      <form className="flex items-center gap-2 border-t-2 border-black pt-4 dark:border-neutral-600" onSubmit={handleSubmit}>
+        <label className="font-black text-cyan-400" htmlFor="terminal-command">
           $
         </label>
         <input
-          className="min-w-0 grow bg-transparent font-black outline-none placeholder:text-neutral-500"
+          className="min-w-0 grow bg-transparent font-black outline-none placeholder:text-neutral-500 dark:text-neutral-100"
           id="terminal-command"
           onChange={(event) => setCommand(event.target.value)}
           placeholder="type help"
           value={command}
         />
-        <button className="border-2 border-black bg-black px-3 py-2 text-xs font-black text-white shadow-[4px_4px_0_#22d3ee]" type="submit">
+        <button className="border-2 border-black bg-black px-3 py-2 text-xs font-black text-white shadow-[4px_4px_0_#22d3ee] transition hover:-translate-x-[2px] hover:-translate-y-[2px] dark:border-neutral-600 dark:shadow-[4px_4px_0_rgba(34,211,238,0.3)]" type="submit">
           Run
         </button>
       </form>
